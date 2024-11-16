@@ -1,0 +1,29 @@
+{
+  "components": {
+    "schemas": {
+      "LoginStepDto": {
+        "type": "object",
+        "properties": {
+          "loginStep": {
+            "type": "string",
+            "enum": [
+              "PHONE_VERIFICATION_BY_OTP",
+              "PASSCODE_VERIFICATION"
+            ]
+          },
+          "finalStep": {
+            "type": "boolean"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ActionConfirmationLoginStepDto"
+          },
+          {
+            "$ref": "#/components/schemas/LoginStepDto"
+          }
+        ]
+      }
+    }
+  }
+}

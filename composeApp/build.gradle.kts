@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.serialization)
     id("com.github.sereden.swagger")
 }
 
@@ -57,6 +58,7 @@ kotlin {
         }
         commonMain.configure {
             kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+            kotlin.srcDir("build/generated/swagger/metadata/commonMain/kotlin")
         }
     }
 }

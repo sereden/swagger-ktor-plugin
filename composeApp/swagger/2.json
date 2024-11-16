@@ -1,0 +1,26 @@
+{
+  "components": {
+    "schemas": {
+      "SetMessageNotificationsReadRequest": {
+        "type": "object",
+        "properties": {
+          "messageNotificationIds": {
+            "type": "array",
+            "description": "List of notification message IDs to set read, must be null is createdBefore present",
+            "writeOnly": true,
+            "items": {
+              "type": "string",
+              "description": "List of notification message IDs to set read, must be null is createdBefore present"
+            }
+          },
+          "createdBefore": {
+            "type": "string",
+            "description": "Timestamp to set message read before, must be null is messageNotificationIds present",
+            "format": "date-time",
+            "writeOnly": true
+          }
+        }
+      }
+    }
+  }
+}

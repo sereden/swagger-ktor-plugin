@@ -11,9 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import example.domain.main.MainViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainScreen() {
+    val viewModel = koinViewModel<MainViewModel>()
     Box(
         modifier = Modifier
             .fillMaxSize()

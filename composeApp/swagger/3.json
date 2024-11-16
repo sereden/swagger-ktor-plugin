@@ -1,0 +1,41 @@
+{
+  "components": {
+    "schemas": {
+      "AmlStatusUpdatedNotification": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "AML_STATUS_UPDATED"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "background": {
+            "type": "boolean"
+          },
+          "amlStatus": {
+            "type": "string",
+            "enum": [
+              "CLEARED",
+              "REJECTED",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "moneyTransferId": {
+            "type": "string"
+          },
+          "payInAmount": {
+            "type": "number"
+          },
+          "payInCurrency": {
+            "type": "string"
+          },
+          "notificationMessageId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

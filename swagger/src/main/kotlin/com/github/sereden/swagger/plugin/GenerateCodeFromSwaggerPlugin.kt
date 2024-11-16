@@ -3,6 +3,8 @@ package com.github.sereden.swagger.plugin
 import com.github.sereden.swagger.processor.CodeGeneratorProcessor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
+import org.gradle.language.assembler.tasks.Assemble
 
 class GenerateCodeFromSwaggerPlugin : Plugin<Project> {
 
@@ -15,6 +17,9 @@ class GenerateCodeFromSwaggerPlugin : Plugin<Project> {
             doLast {
                 CodeGeneratorProcessor(target, extension).process()
             }
+        }
+        target.tasks.withType<Assemble>{
+            dependsOn("generateCodeFromSwaggerTask")
         }
     }
 }
