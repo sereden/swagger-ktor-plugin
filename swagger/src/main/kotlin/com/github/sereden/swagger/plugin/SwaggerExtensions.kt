@@ -5,4 +5,5 @@ import java.io.File
 open class SwaggerExtensions {
     var path: File? = null
     var packageName: String? = null
+    var exclude: File? = null
 }

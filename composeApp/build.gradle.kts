@@ -110,4 +110,5 @@ project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
 swagger {
     path = File("$projectDir/swagger/api.json")
     packageName = "com.zugersee.android.data.remote"
+    exclude = File("$projectDir/swagger/exclude.json")
 }

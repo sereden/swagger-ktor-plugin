@@ -16,8 +16,12 @@ class CodeGeneratorProcessor(
     private val extension: SwaggerExtensions
 ) {
     fun process() {
+        // The exported JSON file that defines REST API
         val swaggerFile = extension.path ?: throw IllegalStateException("Swagger JSON is not provided")
+        // Package name where files should be placed
         val packageName = extension.packageName ?: throw IllegalStateException("Package name is not provided")
+        // If JSON that defines what should be ignored
+        val excludeFile = extension.exclude
         // TODO debug/release
         val outputDir = File("${target.projectDir}/build/generated/swagger/metadata/commonMain/kotlin")
         outputDir.mkdirs()
@@ -29,6 +33,7 @@ class CodeGeneratorProcessor(
         val kotlinDataClassGenerator = KotlinDataClassGenerator()
         val kotlinFileGenerator = KotlinFileGenerator(packageName)
         val appendClassProperty = AppendClassPropertyManager()
+        val processingEntityManager = ProcessingEntityManager(excludeFile)
         val generateSealedInterfacePropertyUseCase = GenerateSealedInterfacePropertyUseCase(
             packageName = packageName,
             sealedInterfaceGenerator = KotlinSealedInterfaceGenerator(packageName),
@@ -54,7 +59,8 @@ class CodeGeneratorProcessor(
                 )
             ),
             dataClassGenerator = kotlinDataClassGenerator,
-            kotlinFileGenerator = kotlinFileGenerator
+            kotlinFileGenerator = kotlinFileGenerator,
+            processingEntityManager = processingEntityManager
         ).process()
     }
 }
