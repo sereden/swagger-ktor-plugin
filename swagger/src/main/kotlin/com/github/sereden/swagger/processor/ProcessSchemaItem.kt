@@ -34,6 +34,7 @@ class ProcessSchemaItem(
                     else -> {
                         val nestedProperties = getProperties(allArrayItem)
                         processProperties(
+                            className = className,
                             properties = nestedProperties,
                             classBuilder = classBuilder,
                             optional = optional
@@ -57,6 +58,7 @@ class ProcessSchemaItem(
 
         if (!properties.isEmpty) {
             processProperties(
+                className = className,
                 properties = properties,
                 classBuilder = classBuilder,
                 optional = optional

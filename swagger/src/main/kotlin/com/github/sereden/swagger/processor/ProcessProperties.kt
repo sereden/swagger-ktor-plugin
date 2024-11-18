@@ -27,6 +27,7 @@ class ProcessProperties(
 ) {
 
     operator fun invoke(
+        className: String,
         properties: JSONObject,
         classBuilder: TypeSpec.Builder,
         optional: Boolean
@@ -122,6 +123,7 @@ class ProcessProperties(
                 }
                 else -> {
                     handlePropertyTypes(
+                        className = className,
                         propertyObject = propertyObject,
                         propertyName = propertyName,
                         propertyType = propertyType,
@@ -156,6 +158,7 @@ class ProcessProperties(
     }
 
     private fun handlePropertyTypes(
+        className: String,
         propertyObject: JSONObject,
         propertyName: String,
         propertyType: String,
@@ -166,7 +169,7 @@ class ProcessProperties(
         when (propertyType) {
             "string" -> {
                 val resolvedType = if (propertyObject.has("enum")) {
-                    val enumClassName = "${propertyName.capitalized()}Option"
+                    val enumClassName = "${className}${propertyName.capitalized()}Option"
                     generateEnum(
                         enumName = enumClassName,
                         propertyObject = propertyObject

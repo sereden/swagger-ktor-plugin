@@ -66,7 +66,7 @@ class CodeGeneratorProcessor(
     private fun getSchemaJsonObject(jsonObject: JSONObject, modelPath: String): JSONObject {
         var result = jsonObject
         modelPath.split("/").forEach { path ->
-            result = jsonObject.getJSONObject(path)
+            result = result.getJSONObject(path)
         }
         return result
     }
