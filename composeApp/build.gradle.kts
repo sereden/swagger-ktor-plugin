@@ -109,8 +109,8 @@ project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
 
 swagger {
     path = File("$projectDir/swagger/api.json")
-    packageName = "com.zugersee.android.data.remote"
+    packageName = "com.example.android.data.remote.dto"
     exclude = File("$projectDir/swagger/exclude.json")
-    modelPropertyPath = "definitions"
-    serverUrl = "https://petstore.swagger.io/v2/swagger.json"
+    modelPropertyPath = "components/schemas"
+    serverUrl = project.findProperty("SWAGGER_JSON_PATH") as String
 }
