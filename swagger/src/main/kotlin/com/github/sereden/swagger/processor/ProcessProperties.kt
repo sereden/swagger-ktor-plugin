@@ -80,7 +80,7 @@ class ProcessProperties(
                             ClassName(packageName, sealedInterfaceName)
                         }
                         arrayType.isNotEmpty() -> {
-                            mapSwaggerTypeToKotlin(arrayType)
+                            LIST.parameterizedBy(mapSwaggerTypeToKotlin(arrayType))
                         }
                         else -> null
                     }
