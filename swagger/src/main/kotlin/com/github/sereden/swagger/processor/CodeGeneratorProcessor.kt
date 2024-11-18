@@ -22,13 +22,12 @@ class CodeGeneratorProcessor(
         val packageName = extension.packageName ?: throw IllegalStateException("Package name is not provided")
         // If JSON that defines what should be ignored
         val excludeFile = extension.exclude
+        val modelPath = extension.modelPropertyPath
         // TODO debug/release
         val outputDir = File("${target.projectDir}/build/generated/swagger/metadata/commonMain/kotlin")
         outputDir.mkdirs()
         val jsonObject = JSONObject(swaggerFile.readText())
-        val schemas = jsonObject
-            .getJSONObject("components")
-            .optJSONObject("schemas") ?: JSONObject()
+        val schemas = getSchemaJsonObject(jsonObject, modelPath)
         val fileWriter = FileWriterImpl(outputDir)
         val kotlinDataClassGenerator = KotlinDataClassGenerator()
         val kotlinFileGenerator = KotlinFileGenerator(packageName)
@@ -62,5 +61,13 @@ class CodeGeneratorProcessor(
             kotlinFileGenerator = kotlinFileGenerator,
             processingEntityManager = processingEntityManager
         ).process()
+    }
+
+    private fun getSchemaJsonObject(jsonObject: JSONObject, modelPath: String): JSONObject {
+        var result = jsonObject
+        modelPath.split("/").forEach { path ->
+            result = jsonObject.getJSONObject(path)
+        }
+        return result
     }
 }

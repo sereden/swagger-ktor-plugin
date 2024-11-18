@@ -111,4 +111,6 @@ swagger {
     path = File("$projectDir/swagger/api.json")
     packageName = "com.zugersee.android.data.remote"
     exclude = File("$projectDir/swagger/exclude.json")
+    modelPropertyPath = "definitions"
+    serverUrl = "https://petstore.swagger.io/v2/swagger.json"
 }
