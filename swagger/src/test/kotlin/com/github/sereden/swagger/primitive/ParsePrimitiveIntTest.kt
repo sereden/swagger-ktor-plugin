@@ -8,7 +8,7 @@ import com.github.sereden.swagger.processor.CodeGeneratorProcessor
 import kotlin.test.Test
 import java.io.File
 
-class ParsePrimitiveInt {
+class ParsePrimitiveIntTest {
 
     @Test
     fun `process should generate single Int property when type is integer`() {
