@@ -1,0 +1,17 @@
+{
+  "definitions": {
+    "StringEnumResponse": {
+      "type": "object",
+      "properties": {
+        "propertyName": {
+          "type": "string",
+          "enum": [
+            "FIRST",
+            "SECOND",
+            "THIRD"
+          ]
+        }
+      }
+    }
+  }
+}
