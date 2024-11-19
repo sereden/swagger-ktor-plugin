@@ -10,6 +10,7 @@ class KotlinFileGenerator(private val packageName: String) {
         typeSpecs: () -> List<TypeSpec>
     ): FileSpec.Builder {
         return FileSpec.builder(packageName, className)
+            .indent("\t")
             .apply {
                 typeSpecs().forEach { typeSpec ->
                     addType(typeSpec)

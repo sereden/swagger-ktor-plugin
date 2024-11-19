@@ -2,7 +2,7 @@ package com.github.sereden.swagger.processor.usecase
 
 import com.github.sereden.swagger.processor.AppendClassPropertyManager
 import com.github.sereden.swagger.processor.KotlinFileGenerator
-import com.github.sereden.swagger.processor.file.FileWriter
+import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinDataClassGenerator
 import com.github.sereden.swagger.processor.structure.KotlinObjectClassGenerator
 import com.github.sereden.swagger.processor.structure.KotlinSealedInterfaceGenerator
@@ -18,7 +18,7 @@ class GenerateSealedInterfacePropertyUseCase(
     private val appendClassProperty: AppendClassPropertyManager,
     private val fileGenerator: KotlinFileGenerator,
     private val kotlinObjectClassGenerator: KotlinObjectClassGenerator,
-    private val fileWriter: FileWriter
+    private val fileManager: FileManager
 ) {
     operator fun invoke(
         sealedInterfaceName: String,
@@ -53,6 +53,6 @@ class GenerateSealedInterfacePropertyUseCase(
             .addImport("kotlinx.serialization.json", "jsonObject")
             .addImport("kotlinx.serialization.json", "Json")
             .build()
-        fileWriter.write(sealedFile)
+        fileManager.write(sealedFile)
     }
 }

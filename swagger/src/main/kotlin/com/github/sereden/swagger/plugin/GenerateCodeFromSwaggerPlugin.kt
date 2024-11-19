@@ -2,8 +2,10 @@ package com.github.sereden.swagger.plugin
 
 import com.github.sereden.swagger.download.DownloadSwaggerJsonTask
 import com.github.sereden.swagger.processor.CodeGeneratorProcessor
+import com.github.sereden.swagger.processor.file.FileManagerImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import java.io.File
 
 class GenerateCodeFromSwaggerPlugin : Plugin<Project> {
 
@@ -14,7 +16,10 @@ class GenerateCodeFromSwaggerPlugin : Plugin<Project> {
             description = "Generates Kotlin data classes from Swagger API schema"
 
             doLast {
-                CodeGeneratorProcessor(target, extension).process()
+                // TODO debug/release
+                val outputDir = File("${target.projectDir}/build/generated/swagger/metadata/commonMain/kotlin")
+                val fileWriter = FileManagerImpl(outputDir)
+                CodeGeneratorProcessor(extension).process(fileWriter)
             }
         }
 
