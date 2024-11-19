@@ -1,0 +1,17 @@
+{
+  "definitions": {
+    "IntegerListResponse": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "array",
+          "description": "Description",
+          "writeOnly": true,
+          "items": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

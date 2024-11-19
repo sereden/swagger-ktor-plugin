@@ -1,21 +1,18 @@
 package com.github.sereden.swagger.processor
 
 import com.github.sereden.swagger.plugin.SwaggerExtensions
-import com.github.sereden.swagger.processor.file.FileWriterImpl
+import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinDataClassGenerator
 import com.github.sereden.swagger.processor.structure.KotlinEnumClassGenerator
 import com.github.sereden.swagger.processor.structure.KotlinObjectClassGenerator
 import com.github.sereden.swagger.processor.structure.KotlinSealedInterfaceGenerator
 import com.github.sereden.swagger.processor.usecase.GenerateSealedInterfacePropertyUseCase
-import org.gradle.api.Project
 import org.json.JSONObject
-import java.io.File
 
 class CodeGeneratorProcessor(
-    private val target: Project,
     private val extension: SwaggerExtensions
 ) {
-    fun process() {
+    fun process(fileManager: FileManager) {
         // The exported JSON file that defines REST API
         val swaggerFile = extension.path ?: throw IllegalStateException("Swagger JSON is not provided")
         // Package name where files should be placed
@@ -23,12 +20,8 @@ class CodeGeneratorProcessor(
         // If JSON that defines what should be ignored
         val excludeFile = extension.exclude
         val modelPath = extension.modelPropertyPath
-        // TODO debug/release
-        val outputDir = File("${target.projectDir}/build/generated/swagger/metadata/commonMain/kotlin")
-        outputDir.mkdirs()
-        val jsonObject = JSONObject(swaggerFile.readText())
+        val jsonObject = JSONObject(fileManager.readFile(swaggerFile))
         val schemas = getSchemaJsonObject(jsonObject, modelPath)
-        val fileWriter = FileWriterImpl(outputDir)
         val kotlinDataClassGenerator = KotlinDataClassGenerator()
         val kotlinFileGenerator = KotlinFileGenerator(packageName)
         val appendClassProperty = AppendClassPropertyManager()
@@ -40,16 +33,16 @@ class CodeGeneratorProcessor(
             appendClassProperty = appendClassProperty,
             fileGenerator = kotlinFileGenerator,
             kotlinObjectClassGenerator = KotlinObjectClassGenerator(),
-            fileWriter = fileWriter,
+            fileManager = fileManager,
         )
         ProcessSchemas(
             schemas = schemas,
-            fileWriter = fileWriter,
+            fileManager = fileManager,
             processSchemaItem = ProcessSchemaItem(
                 schemas = schemas,
                 processProperties = ProcessProperties(
                     packageName = packageName,
-                    fileWriter = fileWriter,
+                    fileManager = fileManager,
                     generateSealedInterfacePropertyUseCase = generateSealedInterfacePropertyUseCase,
                     appendClassProperty = appendClassProperty,
                     appendEnumProperty = AppendEnumPropertyManager(),

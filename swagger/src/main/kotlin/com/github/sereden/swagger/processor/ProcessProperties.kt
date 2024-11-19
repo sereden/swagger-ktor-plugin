@@ -1,6 +1,6 @@
 package com.github.sereden.swagger.processor
 
-import com.github.sereden.swagger.processor.file.FileWriter
+import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinEnumClassGenerator
 import com.github.sereden.swagger.processor.usecase.GenerateSealedInterfacePropertyUseCase
 import com.github.sereden.swagger.utils.getReferenceClassName
@@ -18,7 +18,7 @@ import org.json.JSONObject
 
 class ProcessProperties(
     private val packageName: String,
-    private val fileWriter: FileWriter,
+    private val fileManager: FileManager,
     private val generateSealedInterfacePropertyUseCase: GenerateSealedInterfacePropertyUseCase,
     private val appendClassProperty: AppendClassPropertyManager,
     private val appendEnumProperty: AppendEnumPropertyManager,
@@ -220,7 +220,7 @@ class ProcessProperties(
             }
             listOf(enumFileSpec.build())
         }
-        fileWriter.write(file.build())
+        fileManager.write(file.build())
     }
 
     private fun mapSwaggerTypeToKotlin(

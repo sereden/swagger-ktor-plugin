@@ -1,0 +1,12 @@
+{
+  "definitions": {
+    "IntegerSingleResponse": {
+      "type": "object",
+      "properties": {
+        "property": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

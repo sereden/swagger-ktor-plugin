@@ -1,12 +1,12 @@
 package com.github.sereden.swagger.processor
 
-import com.github.sereden.swagger.processor.file.FileWriter
+import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinDataClassGenerator
 import org.json.JSONObject
 
 class ProcessSchemas(
     private val schemas: JSONObject,
-    private val fileWriter: FileWriter,
+    private val fileManager: FileManager,
     private val processSchemaItem: ProcessSchemaItem,
     private val dataClassGenerator: KotlinDataClassGenerator,
     private val kotlinFileGenerator: KotlinFileGenerator,
@@ -27,7 +27,7 @@ class ProcessSchemas(
                 val fileSpec = kotlinFileGenerator(schemaItemKey) {
                     listOf(typeSpec)
                 }
-                fileWriter.write(fileSpec.build())
+                fileManager.write(fileSpec.build())
                 println("Dto file $schemaItemKey has been generated")
             } else {
                 println("$schemaItemKey is added to exclude list. Ignore handling")
