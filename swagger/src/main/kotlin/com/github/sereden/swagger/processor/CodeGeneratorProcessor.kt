@@ -46,13 +46,18 @@ class CodeGeneratorProcessor(
                     generateSealedInterfacePropertyUseCase = generateSealedInterfacePropertyUseCase,
                     appendClassProperty = appendClassProperty,
                     appendEnumProperty = AppendEnumPropertyManager(),
-                    enumClassGenerator = KotlinEnumClassGenerator(),
+                    enumClassGenerator = KotlinEnumClassGenerator(packageName),
                     fileGenerator = kotlinFileGenerator
                 )
             ),
             dataClassGenerator = kotlinDataClassGenerator,
             kotlinFileGenerator = kotlinFileGenerator,
             processingEntityManager = processingEntityManager
+        ).process()
+        ProcessEnumSerializer(
+            packageName = packageName,
+            fileManager = fileManager,
+            kotlinFileGenerator = kotlinFileGenerator
         ).process()
     }
 

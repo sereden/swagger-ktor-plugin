@@ -218,6 +218,7 @@ class ProcessProperties(
                 val property = enumProperty as String
                 appendEnumProperty(enumFileSpec, property)
             }
+            appendEnumProperty(enumFileSpec, "unknown")
             listOf(enumFileSpec.build())
         }
         fileManager.write(file.build())
