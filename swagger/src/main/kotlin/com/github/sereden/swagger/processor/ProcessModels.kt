@@ -4,22 +4,22 @@ import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinDataClassGenerator
 import org.json.JSONObject
 
-class ProcessSchemas(
-    private val schemas: JSONObject,
+class ProcessModels(
+    private val models: JSONObject,
     private val fileManager: FileManager,
-    private val processSchemaItem: ProcessSchemaItem,
+    private val processModelItem: ProcessModelItem,
     private val dataClassGenerator: KotlinDataClassGenerator,
     private val kotlinFileGenerator: KotlinFileGenerator,
     private val processingEntityManager: ProcessingEntityManager
 ) {
     fun process() {
         // Generate a Kotlin data class for each schema in the Swagger JSON
-        schemas.keys().forEach { schemaItemKey ->
+        models.keys().forEach { schemaItemKey ->
             if (processingEntityManager.canProceed(schemaItemKey, ProcessingEntityManager.ExcludeEntityType.Property)) {
-                val schemaItemObject = schemas.getJSONObject(schemaItemKey)
+                val modelsItemObject = models.getJSONObject(schemaItemKey)
                 val typeSpec = dataClassGenerator(className = schemaItemKey) { classBuilder ->
-                    processSchemaItem(
-                        schemaItem = schemaItemObject,
+                    processModelItem(
+                        modelItem = modelsItemObject,
                         className = schemaItemKey,
                         classBuilder = classBuilder,
                     )
