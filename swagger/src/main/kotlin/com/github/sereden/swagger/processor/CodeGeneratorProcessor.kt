@@ -21,7 +21,7 @@ class CodeGeneratorProcessor(
         val excludeFile = extension.exclude
         val modelPath = extension.modelPropertyPath
         val jsonObject = JSONObject(fileManager.readFile(swaggerFile))
-        val schemas = getSchemaJsonObject(jsonObject, modelPath)
+        val models = getModelsJsonObject(jsonObject, modelPath)
         val kotlinDataClassGenerator = KotlinDataClassGenerator()
         val kotlinFileGenerator = KotlinFileGenerator(packageName)
         val appendClassProperty = AppendClassPropertyManager()
@@ -35,11 +35,11 @@ class CodeGeneratorProcessor(
             kotlinObjectClassGenerator = KotlinObjectClassGenerator(),
             fileManager = fileManager,
         )
-        ProcessSchemas(
-            schemas = schemas,
+        ProcessModels(
+            models = models,
             fileManager = fileManager,
-            processSchemaItem = ProcessSchemaItem(
-                schemas = schemas,
+            processModelItem = ProcessModelItem(
+                models = models,
                 processProperties = ProcessProperties(
                     packageName = packageName,
                     fileManager = fileManager,
@@ -61,7 +61,7 @@ class CodeGeneratorProcessor(
         ).process()
     }
 
-    private fun getSchemaJsonObject(jsonObject: JSONObject, modelPath: String): JSONObject {
+    private fun getModelsJsonObject(jsonObject: JSONObject, modelPath: String): JSONObject {
         var result = jsonObject
         modelPath.split("/").forEach { path ->
             result = result.getJSONObject(path)

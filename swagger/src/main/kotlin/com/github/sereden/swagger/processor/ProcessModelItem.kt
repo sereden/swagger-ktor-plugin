@@ -4,20 +4,20 @@ import com.squareup.kotlinpoet.TypeSpec
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ProcessSchemaItem(
-    private val schemas: JSONObject,
+class ProcessModelItem(
+    private val models: JSONObject,
     private val processProperties: ProcessProperties,
 ) {
     operator fun invoke(
-        schemaItem: JSONObject,
+        modelItem: JSONObject,
         className: String,
         classBuilder: TypeSpec.Builder,
         optional: Boolean = false
     ) {
-        // Get properties for the schema and generate each property
-        val properties = getProperties(schemaItem)
-        val allArray = schemaItem.optJSONArray("allOf") ?: JSONArray()
-        val oneOfArray = schemaItem.optJSONArray("oneOf") ?: JSONArray()
+        // Get properties for the model and generate each property
+        val properties = getProperties(modelItem)
+        val allArray = modelItem.optJSONArray("allOf") ?: JSONArray()
+        val oneOfArray = modelItem.optJSONArray("oneOf") ?: JSONArray()
         // TODO handle required
         if (!allArray.isEmpty) {
             allArray.forEach { allArrayItem ->
@@ -26,7 +26,7 @@ class ProcessSchemaItem(
                     getReferenceClass(allJsonItem) != null -> {
                         val reference = getReferenceClass(allJsonItem)
                         invoke(
-                            schemaItem = schemas.optJSONObject(reference),
+                            modelItem = models.optJSONObject(reference),
                             className = className,
                             classBuilder = classBuilder,
                         )
@@ -49,7 +49,7 @@ class ProcessSchemaItem(
             }.forEach { oneOfArrayItem ->
                 val reference = getReferenceClass(oneOfArrayItem as JSONObject)
                 invoke(
-                    schemaItem = schemas.optJSONObject(reference),
+                    modelItem = models.optJSONObject(reference),
                     className = className,
                     classBuilder = classBuilder,
                 )
