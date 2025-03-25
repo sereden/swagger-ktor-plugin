@@ -22,7 +22,7 @@ class AppendClassPropertyManager {
                 resolvedType.copy(nullable = nullable)
             ).apply {
                 if (description.isNotEmpty()) {
-                    addKdoc(description)
+                    addKdoc(processText(description))
                         .addKdoc("\n")
                 }
                 if (example.isNotBlank()) {
@@ -42,5 +42,11 @@ class AppendClassPropertyManager {
                         "The existing type is: ${existingPropertySpec.type}. Added type: $resolvedType"
             )
         }
+    }
+
+    private fun processText(text: String): String {
+        return text
+            // Ensure that we properly handle percent that are not a placeholder
+            .replace("%", "%%")
     }
 }
