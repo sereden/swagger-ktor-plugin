@@ -4,6 +4,7 @@ import com.github.sereden.swagger.processor.file.FileManager
 import com.github.sereden.swagger.processor.structure.KotlinEnumClassGenerator
 import com.github.sereden.swagger.processor.usecase.GenerateSealedInterfacePropertyUseCase
 import com.github.sereden.swagger.utils.getReferenceClassName
+import com.squareup.kotlinpoet.ANY
 import com.squareup.kotlinpoet.BOOLEAN
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.DOUBLE
@@ -80,7 +81,12 @@ class ProcessProperties(
                             ClassName(packageName, sealedInterfaceName)
                         }
                         arrayType.isNotEmpty() -> {
-                            LIST.parameterizedBy(mapSwaggerTypeToKotlin(arrayType))
+                            LIST.parameterizedBy(
+                                mapSwaggerTypeToKotlin(
+                                    propertyName = propertyName,
+                                    type = arrayType
+                                )
+                            )
                         }
                         else -> null
                     }
@@ -191,7 +197,7 @@ class ProcessProperties(
 
             else -> {
                 try {
-                    val type = mapSwaggerTypeToKotlin(type = propertyType)
+                    val type = mapSwaggerTypeToKotlin(propertyName = propertyName, type = propertyType)
                     appendClassProperty(
                         classBuilder = classBuilder,
                         propertyName = propertyName,
@@ -202,7 +208,7 @@ class ProcessProperties(
                         resolvedType = type
                     )
                 } catch (e: Exception) {
-                    throw Exception("Class name: $propertyName")
+                    throw Exception("Class name: $propertyName", e)
                 }
             }
         }
@@ -225,6 +231,7 @@ class ProcessProperties(
     }
 
     private fun mapSwaggerTypeToKotlin(
+        propertyName: String,
         type: String
     ): TypeName {
         return when (type) {
@@ -232,7 +239,8 @@ class ProcessProperties(
             "integer" -> INT
             "number" -> DOUBLE
             "boolean" -> BOOLEAN
-            else -> throw IllegalStateException("Unsupported: $type")
+            "object" -> ANY
+            else -> throw IllegalStateException("Unsupported: $type for $propertyName")
         }
     }
 }
