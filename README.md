@@ -4,12 +4,28 @@ The `io.github.sereden.swagger` plugin simplifies the process of generating Kotl
 Data Transfer Objects (DTOs) from a Swagger JSON specification. 
 ## Installation
 
+To include the Swagger Ktor Plugin, add the following to your `settings.gradle.kts`:
+```kotlin
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        // ... Other repositories
+      
+        // Add the plugin's GitHub Packages repository
+        maven {
+            url = uri("https://maven.pkg.github.com/sereden/swagger-ktor-plugin")
+        }
+    }
+}
+```
+
 Add the plugin to your `build.gradle.kts` file:
 
 ```kotlin
 plugins {
     // Replace with the latest version
-    id("io.github.sereden.swagger") version "1.0.0" 
+    id("io.github.sereden.swagger-ktor-plugin") version "1.0.0" 
 }
 ```
 
