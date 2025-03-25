@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.serialization)
-    id("io.github.sereden.swagger")
+    id("io.github.sereden.swagger-ktor-plugin")
 }
 
 kotlin {
